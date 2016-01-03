@@ -1,6 +1,8 @@
 # Apex Remote Debugger Chrome Extension
 A chrome extension to make debugging SalesForce ApexRemote calls less awful
 
+![Imgur](http://i.imgur.com/QRxTTHp.gif)
+
 Collaborating on this React app:
 
 ## Prerequisites
