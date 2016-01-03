@@ -3,7 +3,7 @@ import React from 'react';
 
 class Toolbar extends React.Component {
   render() {
-    const {filterText, onFilterTextChanged} = this.props;
+    const {filterText, onFilterTextChanged, onClear} = this.props;
     return (
       <div className="widget hbox filter-bar">
         <div className="filter-text-filter">
@@ -11,29 +11,22 @@ class Toolbar extends React.Component {
                  value={filterText}
                  onChange={onFilterTextChanged}
           />
+          <a style={styles.clearButton} onClick={onClear}>
+            clear
+          </a>
         </div>
-        {/*<div className="filter-checkbox-filter">
-         <label is="dt-checkbox">
-         <div className="dt-checkbox-text">Hide data URLs</div>
-         </label>
-         </div>
-         <div className="filter-bitset-filter">
-         <li className="all selected">All</li>
-         <div className="filter-bitset-filter-divider"></div>
-         <li className="XHR and Fetch">XHR</li>
-         <li className="Scripts">JS</li>
-         <li className="Stylesheets">CSS</li>
-         <li className="Images">Img</li>
-         <li className="Media">Media</li>
-         <li className="Fonts">Font</li>
-         <li className="Documents">Doc</li>
-         <li className="WebSockets">WS</li>
-         <li className="Other">Other</li>
-         </div>*/}
       </div>
     );
 
   }
 }
+
+const styles = {
+  clearButton: {
+    marginLeft: 10,
+    cursor: 'pointer',
+    '-webkit-user-select': 'none'
+  }
+};
 
 export default Toolbar;

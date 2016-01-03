@@ -17,7 +17,7 @@ var FixedDataTable = require('fixed-data-table');
 var React = require('react');
 var {PropTypes} = React;
 var Toolbar = require('./Toolbar');
-var responses = require('./fixtures/responses.json');
+var ZeroState = require('./ZeroState');
 
 const {Table, Column, Cell} = FixedDataTable;
 
@@ -46,7 +46,6 @@ class Grid extends React.Component {
     super(props);
 
     this.state = {
-      dataList: responses,
       columnWidths: this.loadColumnWidths(),
       filterText: ''
     };
@@ -84,64 +83,75 @@ class Grid extends React.Component {
   }
 
   render() {
-    const {selectedObject} = this.props;
-    var {dataList, columnWidths, filterText} = this.state;
+    const {dataList, selectedObject} = this.props;
+    var {columnWidths, filterText} = this.state;
 
     const filteredDataList = dataList.filter(matchesFilterText(filterText));
 
     //check if we need to add blank rows to make stuff look nice
-    const rowsNeeded = (this.props.height - 27) / 12 + 1;
+    const rowsNeeded = (this.props.height - 27) / 11 + 1;
     for (let i = 0; i < rowsNeeded - filteredDataList.length; i++) {
       filteredDataList.push(BLANK_ROW);
     }
 
     return (
       <div>
-        <Toolbar filterText={filterText} onFilterTextChanged={e => this.setState({ filterText: e.target.value })}/>
-        <Table
-          rowHeight={21}
-          headerHeight={27}
-          rowsCount={filteredDataList.length}
-          isColumnResizing={false}
-          onColumnResizeEndCallback={(newColumnWidth, columnKey) => this.onColumnResizeEnd(newColumnWidth, columnKey)}
-          onRowClick={(e, rowNum) => { if(filteredDataList[rowNum] != BLANK_ROW) this.props.onObjectSelected(filteredDataList[rowNum])} }
-          {...this.props}>
-          <Column
-            columnKey="action"
-            header={<Cell>Action</Cell>}
-            cell={<TextCell data={filteredDataList} col="action" selectedObject={selectedObject} />}
-            isResizable
-            width={columnWidths.action}
-          />
-          <Column
-            columnKey="method"
-            header={<Cell>Method</Cell>}
-            cell={<TextCell data={filteredDataList} col="method" selectedObject={selectedObject} />}
-            isResizable
-            width={columnWidths.method}
-          />
-          <Column
-            columnKey="status"
-            header={<Cell>Status</Cell>}
-            cell={<TextCell data={filteredDataList} col="statusCode" selectedObject={selectedObject} />}
-            isResizable
-            width={columnWidths.status}
-          />
-          <Column
-            cell={<TextCell data={filteredDataList} selectedObject={selectedObject} />}
-            width={this.getFillerWidth()}
-          />
-        </Table>
+        <Toolbar
+          filterText={filterText}
+          onFilterTextChanged={e => this.setState({ filterText: e.target.value })}
+          onClear={this.props.onClear}
+        />
+        { dataList.length === 0 ? <ZeroState /> :
+          <Table
+            rowHeight={21}
+            headerHeight={27}
+            rowsCount={filteredDataList.length}
+            isColumnResizing={false}
+            onColumnResizeEndCallback={(newColumnWidth, columnKey) => this.onColumnResizeEnd(newColumnWidth, columnKey)}
+            onRowClick={(e, rowNum) => { if(filteredDataList[rowNum] != BLANK_ROW) this.props.onObjectSelected(filteredDataList[rowNum])} }
+            {...this.props}>
+            <Column
+              columnKey="action"
+              header={<Cell>Action</Cell>}
+              cell={<TextCell data={filteredDataList} col="action" selectedObject={selectedObject} />}
+              isResizable
+              width={columnWidths.action}
+            />
+            <Column
+              columnKey="method"
+              header={<Cell>Method</Cell>}
+              cell={<TextCell data={filteredDataList} col="method" selectedObject={selectedObject} />}
+              isResizable
+              width={columnWidths.method}
+            />
+            <Column
+              columnKey="status"
+              header={<Cell>Status</Cell>}
+              cell={<TextCell data={filteredDataList} col="statusCode" selectedObject={selectedObject} />}
+              isResizable
+              width={columnWidths.status}
+            />
+            <Column
+              cell={<TextCell data={filteredDataList} selectedObject={selectedObject} />}
+              width={this.getFillerWidth()}
+            />
+          </Table> }
       </div>
     );
   }
 }
 
 Grid.propTypes = {
+  dataList: React.PropTypes.array,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   selectedObject: PropTypes.object.isRequired,
-  onObjectSelected: PropTypes.func.isRequired
+  onObjectSelected: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired
+};
+
+Grid.defaultProps = {
+  dataList: []
 };
 
 const styles = {

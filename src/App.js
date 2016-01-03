@@ -5,7 +5,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
 import Grid from './Grid';
-import ZeroState from './ZeroState';
 import DetailPane from './DetailPane';
 
 const MIN_SPLIT_SIZE = 200;
@@ -16,13 +15,42 @@ class App extends React.Component {
     super(...arguments);
     this.state = {
       splitPos: this.getInitialSplitPosition(),
-      gridHeight: window.innerHeight - 37
+      gridHeight: window.innerHeight - 37,
+      requests: this.getInitialRequests()
     };
     this.onWindowResize = this.onWindowResize.bind(this);
     this.getGridHeight = this.getGridHeight.bind(this);
   }
 
+  getInitialRequests() {
+    if (window.location.host == 'localhost:3000') {
+      return require('./fixtures/responses.json');
+    }
+    return [];
+  }
+
   componentDidMount() {
+
+    const self = this;
+    if (chrome && chrome.devtools) {
+      chrome.devtools.network.onRequestFinished.addListener(function (req) {
+
+        if (!req || !req.request || !req.request.url) return;
+
+        if (req.request.url.includes('/apexremote')) {
+
+          req.getContent(bodyString => {
+            const body = JSON.parse(bodyString);
+            //todo: clean me up
+            const newRequests = body.flatMap((r, i) => Object.assign({}, { request: JSON.parse(req.request.postData.text)[i] }, r));
+            self.setState({
+              requests: self.state.requests.concat(newRequests)
+            });
+          });
+        }
+      });
+    }
+
     this.setState({
       gridHeight: this.getGridHeight()
     });
@@ -38,7 +66,6 @@ class App extends React.Component {
 
   onWindowResize() {
     this.setState({
-      splitPos: this.getInitialSplitPosition(),
       gridHeight: this.getGridHeight()
     })
   }
@@ -77,10 +104,12 @@ class App extends React.Component {
       >
         <div style={styles.gridWrapper}>
           <Grid
+            dataList={this.state.requests}
             width={splitPos}
             height={gridHeight}
             selectedObject={selectedObject}
             onObjectSelected={selectedObject => this.setState({ selectedObject })}
+            onClear={() => this.setState({ requests: [], selectedObject: null })}
           />
         </div>
         <DetailPane data={selectedObject} />

@@ -10,6 +10,7 @@
     "test": "nwb test"
   },
   "dependencies": {
+    "base16": "^1.0.0",
     "fixed-data-table": "^0.6.0",
     "react": "~0.14.0",
     "react-datagrid": "^2.0.1",

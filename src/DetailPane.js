@@ -1,6 +1,7 @@
 import React from 'react';
 import JSONTree from 'react-json-tree';
 import testRequest from './fixtures/testRequest.json';
+import monokai from 'base16/lib/monokai';
 
 const theme = {
   scheme: 'google',
@@ -23,27 +24,20 @@ const theme = {
   base0F: '#3971ED'
 };
 
-const ZeroState = () => (
-  <div style={styles.zeroState}>
-    <span>select an item at the left</span>
-  </div>
-)
-
-
 const DetailPane = ({ data }) => {
   if (!data) {
-    return <ZeroState />;
+    return <div style={styles.wrapper} />;
   }
 
   return (
-    <div>
-      <div style={styles.wrapper}>
+    <div style={styles.wrapper}>
+      <div style={styles.section}>
         <strong>Request:</strong>
-        <JSONTree data={testRequest} theme={theme} />
+        <JSONTree data={data.request} theme={monokai}/>
       </div>
-      <div style={styles.wrapper}>
+      <div style={styles.section}>
         <strong>Response:</strong>
-        <JSONTree data={data.result} theme={theme}/>
+        <JSONTree data={data.result} theme={monokai}/>
       </div>
     </div>
   );
@@ -51,6 +45,11 @@ const DetailPane = ({ data }) => {
 
 const styles = {
   wrapper: {
+    backgroundColor: monokai.base01,
+    color: monokai.base05,
+    flex: 1
+  },
+  section: {
     padding: 10
   },
   zeroState: {

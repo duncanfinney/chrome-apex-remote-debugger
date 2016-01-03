@@ -103,3 +103,8 @@ body {
 .fixedDataTableLayout_main {
     border: 0 !important;
 }
+
+.Pane {
+    display: flex;
+    flex-direction: column;
+}

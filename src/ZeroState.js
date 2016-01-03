@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ZeroState = () => (
-  <div className="network-status-pane fill" style={styles.wrapper}>
-    <div className="recording-hint">
+  <div style={styles.wrapper}>
+    <div style={styles.recordingHint}>
       <span>Recording ApexRemote activity…</span><br /><span>Perform a request or hit <b>⌘ R</b> to record the reload.</span>
     </div>
   </div>
@@ -10,14 +10,16 @@ const ZeroState = () => (
 
 const styles = {
   wrapper: {
-    display: 'flex',
+    paddingTop: 50,
     justifyContent: 'center',
-    height: '100%'
+    height: '100%',
+    WebkitUserSelect: 'none',
+    color: '#777'
   },
   recordingHint: {
     fontSize: 14,
     textAlign: 'center',
-    lineHeight: 28
+    lineHeight: '28px'
   }
 };
 
