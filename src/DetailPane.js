@@ -1,5 +1,6 @@
 import React from 'react';
 import JSONTree from 'react-json-tree';
+import testRequest from './fixtures/testRequest.json';
 
 const theme = {
   scheme: 'google',
@@ -22,16 +23,23 @@ const theme = {
   base0F: '#3971ED'
 };
 
+const ZeroState = () => (
+  <div style={styles.zeroState}>
+    <span>select an item at the left</span>
+  </div>
+)
+
 
 const DetailPane = ({ data }) => {
   if (!data) {
-    return <div />;
+    return <ZeroState />;
   }
 
   return (
     <div>
       <div style={styles.wrapper}>
         <strong>Request:</strong>
+        <JSONTree data={testRequest} theme={theme} />
       </div>
       <div style={styles.wrapper}>
         <strong>Response:</strong>
@@ -43,8 +51,11 @@ const DetailPane = ({ data }) => {
 
 const styles = {
   wrapper: {
-    paddingLeft: 10,
-    paddingBottom: 10
+    padding: 10
+  },
+  zeroState: {
+    textAlign: 'center',
+    padding: 20
   }
 };
 

@@ -1,0 +1,120 @@
+[{
+  "configId": "a05j000000XEJXnAAP",
+  "name": "Manage Team 1",
+  "description": "Test Profile",
+  "active": true,
+  "users": [
+    {
+      "userId": "005j000000BJu30AAD"
+    },
+    {
+      "userId": "005j000000Bkgu8AAB"
+    },
+    {
+      "userId": "005j000000BkhkwAAB"
+    },
+    {
+      "userId": "005j000000BkhrvAAB"
+    },
+    {
+      "userId": "005j000000Bki3aAAB"
+    },
+    {
+      "userId": "005j000000BkiBoAAJ"
+    },
+    {
+      "userId": "005j000000CmqlCAAR"
+    }
+  ],
+  "teams": [
+    {
+      "managerUserIds": [],
+      "teamId": "a0Oj0000005ZA2GEAW",
+      "teamName": "T1",
+      "userIds": [
+        "005j000000BkiBoAAJ",
+        "005j000000BkhrvAAB",
+        "005j000000Bkgu8AAB",
+        "005j000000BJu30AAD"
+      ]
+    },
+    {
+      "managerUserIds": [],
+      "teamId": "a0Oj0000005ZA2HEAW",
+      "teamName": "T2",
+      "userIds": [
+        "005j000000CmqlCAAR",
+        "005j000000Bki3aAAB",
+        "005j000000BkhkwAAB"
+      ]
+    }
+  ],
+  "metricAssigns": [
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "leaderboardRankingMethod": "percentage",
+      "metricId": "a03j0000004TNWVAA4",
+      "sortOrder": 0,
+      "suggested": 10,
+      "targetIsMinimum": true
+    },
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "leaderboardRankingMethod": "percentage",
+      "metricId": "a03j000000Mg9zsAAB",
+      "sortOrder": 1,
+      "suggested": 10,
+      "targetIsMinimum": true
+    },
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "leaderboardRankingMethod": "score",
+      "metricId": "a03j0000004TLqJAAW",
+      "sortOrder": 2,
+      "suggested": 15,
+      "targetIsMinimum": true
+    },
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "leaderboardRankingMethod": "score",
+      "metricId": "a03j0000004TLk3AAG",
+      "sortOrder": 3,
+      "suggested": 10,
+      "targetIsMinimum": false
+    }
+  ],
+  "managers": [
+    {
+      "userId": "005j000000BJu30AAD"
+    },
+    {
+      "userId": "005j000000CmqlCAAR"
+    }
+  ],
+  "targets": [
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "metricId": "a03j0000004TNWVAA4",
+      "target": 10,
+      "userId": "005j000000Bki3aAAB"
+    },
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "metricId": "a03j000000Mg9zsAAB",
+      "target": 10,
+      "userId": "005j000000Bki3aAAB"
+    },
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "metricId": "a03j0000004TLqJAAW",
+      "target": 15,
+      "userId": "005j000000Bki3aAAB"
+    },
+    {
+      "configId": "a05j000000XEJXnAAP",
+      "metricId": "a03j0000004TLk3AAG",
+      "target": 10,
+      "userId": "005j000000Bki3aAAB"
+    }
+  ]
+}]
