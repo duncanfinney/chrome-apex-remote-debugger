@@ -40,9 +40,10 @@ class App extends React.Component {
         if (req.request.url.includes('/apexremote')) {
 
           req.getContent(bodyString => {
+            const parsedPostData = JSON.parse(req.request.postData.text);
             const body = JSON.parse(bodyString);
             //todo: clean me up
-            const newRequests = body.flatMap((r, i) => Object.assign({}, { request: JSON.parse(req.request.postData.text)[i] }, r));
+            const newRequests = body.flatMap((r, i) => Object.assign({}, { request: parsedPostData[i] || parsedPostData }, r));
             self.setState({
               requests: self.state.requests.concat(newRequests)
             });

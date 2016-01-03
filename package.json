@@ -15,7 +15,7 @@
     "react": "~0.14.0",
     "react-datagrid": "^2.0.1",
     "react-dom": "~0.14.0",
-    "react-json-tree": "^0.4.0",
+    "react-json-tree": "git://github.com/duncanfinney/react-json-tree.git",
     "react-split-pane": "^0.1.22"
   },
   "devDependencies": {
