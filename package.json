@@ -10,8 +10,12 @@
     "test": "nwb test"
   },
   "dependencies": {
+    "fixed-data-table": "^0.6.0",
     "react": "~0.14.0",
-    "react-dom": "~0.14.0"
+    "react-datagrid": "^2.0.1",
+    "react-dom": "~0.14.0",
+    "react-json-tree": "^0.4.0",
+    "react-split-pane": "^0.1.22"
   },
   "devDependencies": {
     "nwb": "~0.6.3"
