@@ -1,0 +1,7 @@
+{
+  "name": "ApexRemote Debugger",
+  "description": "Easier debugging of apexremote calls",
+  "devtools_page": "chrome/devtools.html",
+  "manifest_version": 2,
+  "version": "2"
+}

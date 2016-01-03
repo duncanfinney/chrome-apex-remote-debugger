@@ -23,13 +23,7 @@ const {Table, Column, Cell} = FixedDataTable;
 
 const TextCell = ({rowIndex, data, col, selectedObject, ...props}) => (
   <Cell {...props} style={data[rowIndex] === selectedObject && styles.selectedCell}>
-    {data[rowIndex][col]}
-  </Cell>
-);
-
-const DateTimeCell = ({rowIndex, data, col, selectedObject, ...props }) => (
-  <Cell {...props} style={data[rowIndex] === selectedObject && styles.selectedCell}>
-    {data[rowIndex][col]}
+    {data[rowIndex][col] || ''}
   </Cell>
 );
 
@@ -39,11 +33,12 @@ const matchesFilterText = filterText => {
 };
 
 const DEFAULT_WIDTHS = {
-  started: 150,
   action: 150,
   method: 150,
   status: 150
 };
+
+const BLANK_ROW = {};
 
 class Grid extends React.Component {
 
@@ -81,11 +76,24 @@ class Grid extends React.Component {
     }), () => localStorage.setItem('columnWidths', JSON.stringify(this.state.columnWidths)));
   }
 
+  getFillerWidth() {
+    const {width} = this.props;
+    const {action,method, status} = this.state.columnWidths;
+
+    return width - action - method - status;
+  }
+
   render() {
     const {selectedObject} = this.props;
     var {dataList, columnWidths, filterText} = this.state;
 
     const filteredDataList = dataList.filter(matchesFilterText(filterText));
+
+    //check if we need to add blank rows to make stuff look nice
+    const rowsNeeded = (this.props.height - 27) / 12 + 1;
+    for (let i = 0; i < rowsNeeded - filteredDataList.length; i++) {
+      filteredDataList.push(BLANK_ROW);
+    }
 
     return (
       <div>
@@ -93,18 +101,15 @@ class Grid extends React.Component {
         <Table
           rowHeight={21}
           headerHeight={27}
-          rowHeight={30}
-          headerHeight={30}
           rowsCount={filteredDataList.length}
           isColumnResizing={false}
           onColumnResizeEndCallback={(newColumnWidth, columnKey) => this.onColumnResizeEnd(newColumnWidth, columnKey)}
-          onRowClick={(e, rowNum) => this.props.onObjectSelected(filteredDataList[rowNum])}
+          onRowClick={(e, rowNum) => { if(filteredDataList[rowNum] != BLANK_ROW) this.props.onObjectSelected(filteredDataList[rowNum])} }
           {...this.props}>
           <Column
             columnKey="action"
             header={<Cell>Action</Cell>}
             cell={<TextCell data={filteredDataList} col="action" selectedObject={selectedObject} />}
-            fixed
             isResizable
             width={columnWidths.action}
           />
@@ -112,7 +117,6 @@ class Grid extends React.Component {
             columnKey="method"
             header={<Cell>Method</Cell>}
             cell={<TextCell data={filteredDataList} col="method" selectedObject={selectedObject} />}
-            fixed
             isResizable
             width={columnWidths.method}
           />
@@ -120,9 +124,12 @@ class Grid extends React.Component {
             columnKey="status"
             header={<Cell>Status</Cell>}
             cell={<TextCell data={filteredDataList} col="statusCode" selectedObject={selectedObject} />}
-            fixed
             isResizable
             width={columnWidths.status}
+          />
+          <Column
+            cell={<TextCell data={filteredDataList} selectedObject={selectedObject} />}
+            width={this.getFillerWidth()}
           />
         </Table>
       </div>

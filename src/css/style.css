@@ -99,3 +99,7 @@ body {
     background-color: rgba(56, 121, 217, 1);
     color: white;
 }
+
+.fixedDataTableLayout_main {
+    border: 0 !important;
+}
