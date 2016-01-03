@@ -29,11 +29,13 @@ const DetailPane = ({ data }) => {
     return <div style={styles.wrapper} />;
   }
 
+  const {request: {action, method, data: params = null} = {}} = data;
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.section}>
         <strong>Request:</strong>
-        <JSONTree data={data.request} theme={monokai}/>
+        <JSONTree data={{ action, method, params }} theme={monokai}/>
       </div>
       <div style={styles.section}>
         <strong>Response:</strong>
