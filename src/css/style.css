@@ -89,3 +89,13 @@ body {
     background: white !important;
     font-weight: normal !important;
 }
+
+.fixedDataTableRowLayout_rowWrapper:hover:not(.selected) .public_fixedDataTableCell_main {
+    background-color: rgba(56, 121, 217, 0.1);
+    cursor:pointer;
+}
+
+.fixedDataTableRowLayout_rowWrapper.selected .public_fixedDataTableCell_main {
+    background-color: rgba(56, 121, 217, 1);
+    color: white;
+}

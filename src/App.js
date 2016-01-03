@@ -4,9 +4,9 @@ import './css/style.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
-import JSONTree from 'react-json-tree';
 import Grid from './Grid';
 import ZeroState from './ZeroState';
+import DetailPane from './DetailPane';
 
 const MIN_SPLIT_SIZE = 200;
 
@@ -16,8 +16,7 @@ class App extends React.Component {
     super(...arguments);
     this.state = {
       splitPos: this.getInitialSplitPosition(),
-      gridHeight: window.innerHeight - 37,
-      selectedObject: null
+      gridHeight: window.innerHeight - 37
     };
     this.onWindowResize = this.onWindowResize.bind(this);
     this.getGridHeight = this.getGridHeight.bind(this);
@@ -66,6 +65,9 @@ class App extends React.Component {
   }
 
   render() {
+
+    const {splitPos, gridHeight, selectedObject} = this.state;
+
     return (
       <SplitPane
         split="vertical"
@@ -75,12 +77,13 @@ class App extends React.Component {
       >
         <div style={styles.gridWrapper}>
           <Grid
-            width={this.state.splitPos}
-            height={this.state.gridHeight}
-            onDataClick={data => this.setState({ selectedObject: data })}
+            width={splitPos}
+            height={gridHeight}
+            selectedObject={selectedObject}
+            onObjectSelected={selectedObject => this.setState({ selectedObject })}
           />
         </div>
-        <JSONTree data={this.state.selectedObject}/>
+        <DetailPane data={selectedObject} />
       </SplitPane>
     )
   }
