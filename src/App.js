@@ -2,10 +2,10 @@ import 'fixed-data-table/dist/fixed-data-table.min.css';
 import './css/style.css';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
 import JSONTree from 'react-json-tree';
-import Toolbar from './Toolbar';
-import GridExample from './GridExample';
+import Grid from './Grid';
 
 const MIN_SPLIT_SIZE = 200;
 
@@ -15,10 +15,17 @@ class App extends React.Component {
     super(...arguments);
     this.state = {
       splitPos: this.getInitialSplitPosition(),
-      height: window.innerHeight,
+      gridHeight: window.innerHeight - 37,
       selectedObject: null
     };
     this.onWindowResize = this.onWindowResize.bind(this);
+    this.getGridHeight = this.getGridHeight.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      gridHeight: this.getGridHeight()
+    });
   }
 
   componentWillMount() {
@@ -32,12 +39,16 @@ class App extends React.Component {
   onWindowResize() {
     this.setState({
       splitPos: this.getInitialSplitPosition(),
-      height: window.innerHeight
+      gridHeight: this.getGridHeight()
     })
   }
 
+  getGridHeight() {
+    return window.innerHeight - 37;
+  }
+
   getInitialSplitPosition() {
-    let splitPos = parseInt(localStorage.getItem('splitPos'), 10)
+    let splitPos = parseInt(localStorage.getItem('splitPos'), 10);
     const {innerWidth} = window;
     if (!splitPos || innerWidth - splitPos < MIN_SPLIT_SIZE) {
       splitPos = innerWidth - MIN_SPLIT_SIZE; //initial_size
@@ -61,11 +72,10 @@ class App extends React.Component {
         defaultSize={ localStorage.getItem('splitPos') }
         onChange={ size => this.onChangeSplitPaneSize(size) }
       >
-        <div>
-          <Toolbar />
-          <GridExample
+        <div style={styles.gridWrapper}>
+          <Grid
             width={this.state.splitPos}
-            height={this.state.height}
+            height={this.state.gridHeight}
             onDataClick={data => this.setState({ selectedObject: data })}
           />
         </div>
@@ -74,6 +84,13 @@ class App extends React.Component {
     )
   }
 
+}
+
+const styles = {
+  gridWrapper: {
+    display: 'flex',
+    flexDirection: 'column'
+  }
 }
 
 export default App;
