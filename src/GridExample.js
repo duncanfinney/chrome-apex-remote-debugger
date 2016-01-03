@@ -42,31 +42,37 @@ class ObjectDataExample extends React.Component {
     super(props);
 
     this.state = {
-      dataList: new FakeObjectDataListStore(1000000),
+      dataList: new FakeObjectDataListStore(1000)
     };
   }
 
+  onRowClick(rowNum) {
+    this.props.onDataClick(this.state.dataList._cache[rowNum]);
+  }
+
   render() {
-    console.log("width", this.props.width);
     var {dataList} = this.state;
     return (
       <Table
-        rowHeight={50}
-        headerHeight={50}
+        rowHeight={21}
+        headerHeight={27}
+        rowHeight={30}
+        headerHeight={30}
         rowsCount={dataList.getSize()}
         width={500}
         height={500}
+        onRowClick={(_, rowNum) => this.onRowClick(rowNum)}
         {...this.props}>
         <Column
           header={<Cell>First Name</Cell>}
           cell={<LinkCell data={dataList} col="firstName" />}
-          fixed={true}
+          fixed
           width={100}
         />
         <Column
           header={<Cell>Last Name</Cell>}
           cell={<TextCell data={dataList} col="lastName" />}
-          fixed={true}
+          fixed
           width={100}
         />
         <Column
