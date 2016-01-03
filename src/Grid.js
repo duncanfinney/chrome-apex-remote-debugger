@@ -39,6 +39,13 @@ const TextCell = ({rowIndex, data, col, ...props}) => (
   </Cell>
 );
 
+const DEFAULT_WIDTHS = {
+  started: 150,
+  action: 150,
+  method: 150,
+  status: 150
+};
+
 class Grid extends React.Component {
 
   constructor(props) {
@@ -46,13 +53,22 @@ class Grid extends React.Component {
 
     this.state = {
       dataList: new FakeObjectDataListStore(1000),
-      columnWidths: {
-        started: 150,
-        action: 150,
-        method: 150,
-        status: 150
-      }
+      columnWidths: this.loadColumnWidths()
     };
+    localStorage.setItem('columnWidths', JSON.stringify(this.state.columnWidths));
+  }
+
+  loadColumnWidths() {
+    const fromLocalStorage = localStorage.getItem('columnWidths');
+    if (fromLocalStorage) {
+      try {
+        return JSON.parse(fromLocalStorage);
+      } catch(e) {
+        return DEFAULT_WIDTHS;
+      }
+    } else {
+      return DEFAULT_WIDTHS;
+    }
   }
 
 
@@ -62,7 +78,7 @@ class Grid extends React.Component {
         ...columnWidths,
         [columnKey]: newColumnWidth
       }
-    }));
+    }), () => localStorage.setItem('columnWidths', JSON.stringify(this.state.columnWidths)));
   }
 
   render() {
