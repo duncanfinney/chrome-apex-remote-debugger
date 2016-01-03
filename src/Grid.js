@@ -12,30 +12,24 @@
 
 "use strict";
 
-var ExampleImage = require('./helpers/ExampleImage');
 var FakeObjectDataListStore = require('./helpers/FakeObjectDataListStore');
 var FixedDataTable = require('fixed-data-table');
 var React = require('react');
 var {PropTypes} = React;
 var Toolbar = require('./Toolbar');
+var responses = require('./fixtures/responses.json');
 
 const {Table, Column, Cell} = FixedDataTable;
 
-const DateCell = ({rowIndex, data, col, ...props}) => (
-  <Cell {...props}>
-    {data.getObjectAt(rowIndex)[col].toLocaleString()}
-  </Cell>
-);
-
-const LinkCell = ({rowIndex, data, col, ...props}) => (
-  <Cell {...props}>
-    <a href="#">{data.getObjectAt(rowIndex)[col]}</a>
-  </Cell>
-);
-
 const TextCell = ({rowIndex, data, col, ...props}) => (
   <Cell {...props}>
-    {data.getObjectAt(rowIndex)[col]}
+    {data[rowIndex][col]}
+  </Cell>
+);
+
+const DateTimeCell = ({rowIndex, data, col, ...props }) => (
+  <Cell {...props}>
+    {data[rowIndex][col]}
   </Cell>
 );
 
@@ -52,7 +46,7 @@ class Grid extends React.Component {
     super(props);
 
     this.state = {
-      dataList: new FakeObjectDataListStore(1000),
+      dataList: responses,
       columnWidths: this.loadColumnWidths()
     };
     localStorage.setItem('columnWidths', JSON.stringify(this.state.columnWidths));
@@ -91,14 +85,14 @@ class Grid extends React.Component {
           headerHeight={27}
           rowHeight={30}
           headerHeight={30}
-          rowsCount={dataList.getSize()}
+          rowsCount={dataList.length}
           isColumnResizing={false}
           onColumnResizeEndCallback={(newColumnWidth, columnKey) => this.onColumnResizeEnd(newColumnWidth, columnKey)}
           {...this.props}>
           <Column
             columnKey="started"
             header={<Cell>Started</Cell>}
-            cell={<TextCell data={dataList} col="firstName" />}
+            cell={<DateTimeCell data={dataList} col="startedDateTime" />}
             fixed
             isResizable
             width={columnWidths.started}
@@ -106,7 +100,7 @@ class Grid extends React.Component {
           <Column
             columnKey="action"
             header={<Cell>Action</Cell>}
-            cell={<TextCell data={dataList} col="lastName" />}
+            cell={<TextCell data={dataList} col="action" />}
             fixed
             isResizable
             width={columnWidths.action}
@@ -114,7 +108,7 @@ class Grid extends React.Component {
           <Column
             columnKey="method"
             header={<Cell>Method</Cell>}
-            cell={<TextCell data={dataList} col="email" />}
+            cell={<TextCell data={dataList} col="method" />}
             fixed
             isResizable
             width={columnWidths.method}
@@ -122,7 +116,7 @@ class Grid extends React.Component {
           <Column
             columnKey="status"
             header={<Cell>Status</Cell>}
-            cell={<TextCell data={dataList} col="email" />}
+            cell={<TextCell data={dataList} col="statusCode" />}
             fixed
             isResizable
             width={columnWidths.status}

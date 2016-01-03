@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
 import JSONTree from 'react-json-tree';
 import Grid from './Grid';
+import ZeroState from './ZeroState';
 
 const MIN_SPLIT_SIZE = 200;
 
@@ -91,6 +92,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'column'
   }
-}
+};
 
 export default App;
